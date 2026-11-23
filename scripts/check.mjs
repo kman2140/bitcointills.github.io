@@ -1,0 +1,14 @@
+import assert from 'node:assert/strict';import worker from '../worker/index.js';import fs from 'node:fs';
+let stored=[];const env={BUCKET:{async put(k,v){stored.push([k,JSON.parse(v)])}}};
+const sample={business:'Demo business',name:'Example operator',email:'operator@example.test',location:'Mornington, VIC',pos:'yes',consent:true,message:'Setup enquiry test',website:''};
+const send=(d,origin='https://example.test',target=env)=>worker.fetch(new Request('https://example.test/api/enquiries',{method:'POST',headers:{'Content-Type':'application/json',Origin:origin},body:JSON.stringify(d)}),target);
+assert.equal((await send({...sample,consent:false})).status,400);assert.equal(stored.length,0);
+assert.equal((await send({...sample,email:'invalid'})).status,400);assert.equal((await send(sample,'https://elsewhere.test')).status,403);
+assert.equal((await send({...sample,website:'bot'})).status,400);
+assert.equal((await send(sample,'https://example.test',{})).status,503);
+const r=await send(sample);assert.equal(r.status,201);const result=await r.json();assert.match(result.reference,/^BT-[A-F0-9]{8}$/);assert.equal(stored.length,1);assert.equal(stored[0][1].subscription_active,false);assert.equal(stored[0][1].unit_price_aud,199);assert.equal(stored[0][1].monthly_price_aud,20);assert.equal(stored[0][1].reference,result.reference);
+assert.equal((await worker.fetch(new Request('https://example.test/enquiries/'),env)).status,404);
+assert.equal((await worker.fetch(new Request('https://example.test/api/enquiries'),env)).status,405);
+const home=await worker.fetch(new Request('https://example.test/'),env);assert.equal(home.status,200);assert.ok(home.headers.get('content-security-policy'));assert.match(await home.text(),/A\$20/);
+const source=fs.readFileSync('web/index.html','utf8');const script=source.match(/<script>([\s\S]*?)<\/script>/)[1];new Function(script);
+console.log('PASS: persisted enquiries, consent and input validation, failure handling, private reads, billing state, page and script syntax.');
