@@ -9,8 +9,12 @@ is the editable page; `worker/api.js` handles setup enquiries. The build assembl
 The hosting manifest declares the Sites-provisioned R2 binding `BUCKET`. Setup
 enquiries are saved as private JSON objects under `enquiries/`. There is no public
 read endpoint. Each enquiry records its own contact consent and request reference.
-No wallet secrets or payment details are collected. This site does not send email
-notifications. Enquiries require manual review.
+No wallet secrets or payment details are collected.
+
+On the static GitHub Pages site, the setup form posts to FormSubmit
+(`https://formsubmit.co/ajax/bitcointills@aleeas.com`), which emails each enquiry
+to bitcointills@aleeas.com. The first submission triggers a one-time activation
+email from FormSubmit that must be confirmed before enquiries are delivered.
 
 Billing is not connected. The website never claims to charge or activate a
 subscription. To enable recurring billing, add the operator's chosen provider and
