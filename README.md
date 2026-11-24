@@ -12,8 +12,8 @@ read endpoint. Each enquiry records its own contact consent and request referenc
 No wallet secrets or payment details are collected.
 
 On the static GitHub Pages site, the setup form posts to FormSubmit
-(`https://formsubmit.co/ajax/bitcointills@aleeas.com`), which emails each enquiry
-to bitcointills@aleeas.com. The first submission triggers a one-time activation
+(`https://formsubmit.co/ajax/bitcointills.spiny421@aleeas.com`), which emails each enquiry
+to bitcointills.spiny421@aleeas.com. The first submission triggers a one-time activation
 email from FormSubmit that must be confirmed before enquiries are delivered.
 
 Billing is not connected. The website never claims to charge or activate a
