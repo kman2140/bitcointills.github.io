@@ -1,6 +1,6 @@
 # BitcoinTills
 
-A responsive landing page for the A$199 original BitcoinTills POS unit, followed by the A$20/month Bitcoin business support subscription.
+A responsive landing page for BitcoinTills, a Digital Playhouse Foundation Ltd initiative: the POS unit at A$0 upfront with the A$27/month Bitcoin business support subscription.
 
 Run `node scripts/build.mjs` to rebuild the self-contained Worker. `web/index.html`
 is the editable page; `worker/api.js` handles setup enquiries. The build assembles
